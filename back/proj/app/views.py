@@ -7,6 +7,13 @@ from rest_framework.decorators import api_view, permission_classes
 from .utils.dag import dag
 
 
+def home_view(request):
+    html = """This is the backend.<br>
+    Nothing happens here, but at <a href="/dag/">/dag/</a>.<br>
+    The code is at <a href="https://github.com/watchduck/DAG">github.com/watchduck/DAG</a>."""
+    return HttpResponse(html)
+
+
 @api_view(['POST'])
 @permission_classes((AllowAny, ))
 def dag_view(request):

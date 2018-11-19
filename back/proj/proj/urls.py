@@ -17,12 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 
-from app.views import dag_view
+from app.views import home_view, dag_view
 
 urlpatterns = [
 
+    url(r'^$', home_view),
     url(r'^dag/$', dag_view),
 
     path('admin/', admin.site.urls),
 
 ]
+

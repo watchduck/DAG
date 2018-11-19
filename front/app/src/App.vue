@@ -28,8 +28,9 @@
                 The components are numbered P and the nodes in them Q. The original order of nodes is called R.
             </p>
             <p>
-                Some node have a clear <a href="https://en.wikipedia.org/wiki/Graded_poset">rank</a>.
-                For those that don't an interval is shown, based on biggest distance from roots and leafs.
+                Some nodes have a clear <a href="https://en.wikipedia.org/wiki/Graded_poset">rank</a>.
+                Others have greater freedom in their vertical positioning.<br>
+                For them an interval is shown, showing on which rank layers they could be placed.
             </p>
         </div>
 
@@ -76,3 +77,4 @@
         width: 100%;
     }
 </style>
+
