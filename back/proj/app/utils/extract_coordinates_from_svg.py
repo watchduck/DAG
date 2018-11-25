@@ -1,6 +1,5 @@
-import os
 from xml.etree import ElementTree
-
+import os
 
 
 """
@@ -20,9 +19,11 @@ In this case it is also in the `text` element, but usually there is a dummy zero
 
 def extract_coordinates_from_svg(node_num, name):
 
-    file_name = 'app/svg_files/{name}.svg'.format(name=name)
-    full_file = os.path.abspath(file_name)
-    tree = ElementTree.parse(full_file)
+    file_path = '{grandparent}/svg_files/{name}.svg'.format(
+        grandparent=os.path.dirname(os.path.dirname(__file__)),
+        name=name
+    )
+    tree = ElementTree.parse(file_path)
 
     svg_x_list = [0] * node_num
     svg_y_list = [0] * node_num
@@ -51,6 +52,6 @@ def extract_coordinates_from_svg(node_num, name):
     svg_x_max = max(svg_x_list)
     svg_y_max = max(svg_y_list)
 
-    os.system('rm ' + file_name)  # remove SVG file
+    os.system('rm ' + file_path)  # remove SVG file
 
     return svg_x_list, svg_y_list, svg_x_max, svg_y_max

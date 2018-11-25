@@ -1,4 +1,5 @@
 import pygraphviz as pgv
+import os
 
 
 def make_svg(node_num, edges, name):
@@ -12,7 +13,10 @@ def make_svg(node_num, edges, name):
     s += '}'
 
     g = pgv.AGraph(s)
-    g.draw(
-        'app/svg_files/{name}.svg'.format(name=name),
-        prog='dot'
+
+    file_path = '{grandparent}/svg_files/{name}.svg'.format(
+        grandparent=os.path.dirname(os.path.dirname(__file__)),
+        name=name
     )
+    g.draw(file_path, prog='dot')
+
