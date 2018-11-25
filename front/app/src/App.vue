@@ -14,8 +14,8 @@
                 Red fields stand for edges, white fields for possible edges.
                 Light red fields stand for edges in the
                 <a href="https://en.wikipedia.org/wiki/Transitive_closure">transitive closure</a>.<br>
-                They are redundant and can not be added.
-                When such edges are removed, the field is marked with a red dot.<br>
+                They can not be added.
+                When such redundant edges are removed, the field is marked with a red dot.<br>
                 Gray fields are forbidden, because these edges would create a circle.
             </p>
             <p>

@@ -30,7 +30,8 @@ def dag(nodenum, initial_edges, ranks_wanted):
                     'rank': {'min': 0, 'max': 0}
                 }],
                 'edges': [],
-                'svg_size': {'x': 0, 'y': 0}
+                'svg_size': {'x': 0, 'y': 0},
+                'longest_path_length': 0
             }],
             'edges': {
                 'present': [],
@@ -99,3 +100,4 @@ def dag(nodenum, initial_edges, ranks_wanted):
         },
         'r_to_pq': r_to_pq
     }
+
