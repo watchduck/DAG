@@ -103,7 +103,7 @@ export default {
     },
     actions: {
         actDag(context) {
-            let url = 'http://127.0.0.1:8000/dag/';
+            let url = 'http://back-dag.watchduck.net//dag/';
             if (context.rootState.firstLoad) {
                 context.commit('mutFirstLoad')
             }
