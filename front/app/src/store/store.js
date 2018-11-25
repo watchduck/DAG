@@ -28,6 +28,9 @@ export const store = new Vuex.Store({
         }
     },
     mutations: {
+        mutFirstLoadTrue(state) {
+            state.firstLoad = true;
+        },
         mutFirstLoad(state) {
             state.graph.nodeNames = helpers.names_str_to_arr(state.route.query.names);
             state.graph.edges.present = helpers.edges_str_to_arr(state.route.query.edges);

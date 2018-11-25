@@ -60,6 +60,12 @@
             },
             dagIsDisconnected() { return this.$store.getters.dagIsDisconnected }
         },
+        watch: {
+            '$route'(to, from) {
+                this.$store.commit('mutFirstLoadTrue');
+                this.$store.dispatch('actDag');
+            }
+        },
         methods: {
             setSvgOrigin() {
                 let rect = this.$el.querySelector('svg').getBoundingClientRect();
