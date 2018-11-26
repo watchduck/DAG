@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <h2 v-if="dagIsDisconnected">
-            <router-link :to="{name: 'app', query: {edges: edgesUrlStr, names: namesUrlStr}}">
+            <a :href="urlStr">
                 P {{p}}
-            </router-link>
+            </a>
         </h2>
 
         <matrix-p-q-small :p="p" class="left"></matrix-p-q-small>
@@ -58,13 +58,11 @@
                 }
                 return helpers.names_arr_to_str(names)
             },
+            urlStr() {
+                return "http://dag.watchduck.net/?edges=" + this.edgesUrlStr + "&names=" + this.namesUrlStr
+            },
+
             dagIsDisconnected() { return this.$store.getters.dagIsDisconnected }
-        },
-        watch: {
-            '$route'(to, from) {
-                this.$store.commit('mutFirstLoadTrue');
-                this.$store.dispatch('actDag');
-            }
         },
         methods: {
             setSvgOrigin() {
@@ -102,3 +100,4 @@
         margin: 0;
     }
 </style>
+
