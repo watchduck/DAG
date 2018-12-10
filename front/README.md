@@ -162,13 +162,13 @@ It is used in `Node` and the tables `MatrixRLabel` and `MatrixPQLabel`.
 &emsp;[`Cocos`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Cocos.vue) (connected components)<br>
 &emsp;&emsp;[`Coco`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Coco.vue)
 (heading hidden if only one)<br>
+&emsp;&emsp;&emsp;[`Node`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Node.vue)<br>
+&emsp;&emsp;&emsp;[`Edge`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Edge.vue)<br>
 &emsp;&emsp;&emsp;[`MatrixPQSmall`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQSmall.vue)<br>
 &emsp;&emsp;&emsp;&emsp;[`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue)<br>
 &emsp;&emsp;&emsp;&emsp;[`MatrixPQRanks`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQRanks.vue)<br>
 &emsp;&emsp;&emsp;&emsp;[`MatrixPQCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCell.vue)<br>
-&emsp;&emsp;&emsp;&emsp;[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue)<br>
-&emsp;&emsp;&emsp;[`Node`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Node.vue)<br>
-&emsp;&emsp;&emsp;[`Edge`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Edge.vue)
+&emsp;&emsp;&emsp;&emsp;[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue)
 
 The labels and cells of the PQ matrices
 ([`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue),
