@@ -182,3 +182,12 @@ are used both in
 [`MatrixPQBig`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQBig.vue) and
 [`MatrixPQSmall`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQSmall.vue).
 (So this is not a tree, but itself a DAG.)
+
+## Browsers
+
+The borders between the matrix cells are hidden in Firefox, thanks to an
+[ancient bug](https://bugzilla.mozilla.org/show_bug.cgi?id=688556).
+(Compare [this fiddle](https://jsfiddle.net/watchduck/du9ne1jz).)<br>
+In Chrome it looks like it should.
+
+In the site currently online the [devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) are allowed. Components and store can be accessed.
