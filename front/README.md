@@ -86,8 +86,7 @@ The code for that is in the component
 and in [`store/modules/mouse.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/modules/mouse.js).
 
 Clicking on a node triggers the method `handleMouseDown`, 
-which (through `actDrag`) sets the store variable `drag` to true,
-and adds the event listener `handleMouseMove`.
+which adds the event listener `handleMouseMove`, and (through `actDrag`) sets the store variable `drag` to true.
 
 This listener will dispatch the action `actMouse` on every mouse move, and pass to it the node (as P and Q) and its new position.
 There it will be checked if the new position is legal. If it is, the coordinates of the node will be changed by
@@ -104,16 +103,16 @@ where the listener `handleMouseMove` is then removed again.
 ## Focus
 
 There are different ways to focus single or many nodes by hovering over elements.
-Focusing a node will highlight all elements associated with it, i.e. its circle in the graph, its row in the tables,
-and its diagonal field in the matrices.
+Focusing a node will highlight all elements associated with it, i.e. its circle in the graph
+([`Node`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Node.vue)),
+its row in the tables
+([`MatrixRLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRLabel.vue),
+[`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue)),
+and its diagonal field in the matrices
+([`MatrixRCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCellDiagonal.vue),
+[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue)).
 
-In the components associated with single nodes
-([`Node`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Node.vue),
-[`MatrixRLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRLabel.vue),
-[`MatrixRCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCellDiagonal.vue),
-[`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue),
-[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue))
-mouseover will commit `mutNodeFocus` (with the node passed to it as R), and mouseleave will commit `mutNodeUnfocus`.
+In these components associated with single nodes mouseover will commit `mutNodeFocus` (with the node passed to it as R), and mouseleave will commit `mutNodeUnfocus`.
 These mutations will change the store variable `nodeFocus` to R or to null respectively.
 
 In the matrix cells
@@ -142,3 +141,40 @@ The getter `nodeFocused` in
 [`store/store.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/store.js)
 checks if a node is focused in any of these three ways.<br>
 It is used in `Node` and the tables `MatrixRLabel` and `MatrixPQLabel`.
+
+# Components
+
+[`App`](https://github.com/watchduck/DAG/blob/master/front/app/src/App.vue)
+
+&emsp;[`Dashboard`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Dashboard.vue)
+
+&emsp;[`MatrixR`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixR.vue)<br>
+&emsp;&emsp;[`MatrixRLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRLabel.vue)<br>
+&emsp;&emsp;[`MatrixRCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCell.vue)<br>
+&emsp;&emsp;[`MatrixRCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCellDiagonal.vue)<br>
+
+&emsp;[`MatrixPQBig`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQBig.vue)
+(hidden if DAG has only one connected component)<br>
+&emsp;&emsp;[`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue)<br>
+&emsp;&emsp;[`MatrixPQCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCell.vue)<br>
+&emsp;&emsp;[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue)<br>
+
+&emsp;[`Cocos`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Cocos.vue) (connected components)<br>
+&emsp;&emsp;[`Coco`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Coco.vue)
+(heading hidden if only one)<br>
+&emsp;&emsp;&emsp;[`MatrixPQSmall`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQSmall.vue)<br>
+&emsp;&emsp;&emsp;&emsp;[`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue)<br>
+&emsp;&emsp;&emsp;&emsp;[`MatrixPQRanks`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQRanks.vue)<br>
+&emsp;&emsp;&emsp;&emsp;[`MatrixPQCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCell.vue)<br>
+&emsp;&emsp;&emsp;&emsp;[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue)<br>
+&emsp;&emsp;&emsp;[`Node`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Node.vue)<br>
+&emsp;&emsp;&emsp;[`Edge`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Edge.vue)
+
+The labels and cells of the PQ matrices
+([`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue),
+[`MatrixPQCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCell.vue),
+[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue))
+are used both in
+[`MatrixPQBig`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQBig.vue) and
+[`MatrixPQSmall`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQSmall.vue).
+(So this is not a tree, but itself a DAG.)
