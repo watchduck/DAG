@@ -60,7 +60,7 @@ In the image on the left they are shown as the default R.
 
 In the image on the right both numbers are shown for each node &mdash; R without and and Q with serifs.
 
-This DAG in this example has only one connected component. (A second one with two can be found
+The DAG in this example has only one connected component. (A second one with two can be found
 [here](https://github.com/watchduck/DAG/blob/master/front/README_2.md).)
 
 The response from the server has three parts: `cocos`, `edges` and the map `r_to_pq`.<br>
@@ -68,12 +68,13 @@ The response from the server has three parts: `cocos`, `edges` and the map `r_to
 `edges` contains the edges of the whole DAG as pairs of P.
 In addition to the present edges (red matrix fields) there are also the removed and the closing edges.
 The closing edges are those in the closure that are implied by others (light red matrix fields).
-Closing edges are removed on the server (red circle in the matrix).
+If edges passed to the server turn out to be closing, they are removed (red circle in the matrix).
 Any edge opposite to one in the closure is forbidden (gray matrix fields), because it would create a circle.
 
 The sending and receiving happens in the action `actDag` in
 [`store/modules/graph.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/modules/graph.js).
-It is dispatched when the DAG changes (`actToggleEdge`, `actAddNode` and `actRemoveNode`) and on page load in the
+It is dispatched when the DAG changes (actions `actToggleEdge`, `actAddNode` and `actRemoveNode` right below) 
+and on page load in the
 [`Cocos`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Cocos.vue) component.
 After the Axios call in the action is finished, the mutation `mutDag` is committed 
 and updates the store variables `cocos`, `edges` and `r_to_pq`.
@@ -97,8 +98,8 @@ The mouse can leave the drawing, but the node can not.
 Therefore the release of the mouse has to be detected outside of the drawing.
 This `handleMouseUp` method is attached to the root `div` in the
 [`App`](https://github.com/watchduck/DAG/blob/master/front/app/src/App.vue) component.
-It sets `drag` to true again, and this change is detected by the watcher in `Node`,
-where the listener `handleMouseMove` is then removed again.
+It sets `drag` to false, and this change is detected by the watcher in `Node`,
+where the listener `handleMouseMove` is then removed.
 
 ## Focus
 
@@ -112,13 +113,13 @@ and its diagonal field in the matrices
 ([`MatrixRCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCellDiagonal.vue),
 [`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue)).
 
-In these components associated with single nodes mouseover will commit `mutNodeFocus` (with the node passed to it as R), and mouseleave will commit `mutNodeUnfocus`.
+In these components associated with single nodes, mouseover will commit `mutNodeFocus` (with the node passed to it as R), and mouseleave will commit `mutNodeUnfocus`.
 These mutations will change the store variable `nodeFocus` to R or to null respectively.
 
 In the matrix cells
 ([`MatrixRCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCell.vue),
 [`MatrixPQCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCell.vue))
-the equivalent mutations are `mutNodePairFocus` (with row and col node passed to it as R) and `mutNodePairUnfocus`.
+the equivalent mutations are `mutNodePairFocus` (with row and column passed to it as R) and `mutNodePairUnfocus`.
 The changed variable is `nodePairFocus`.<br>
 In the upper matrix the positions of the cells do not change. Therefore it is more intuitive to have the field still
 focused after clicking on it. To achieve this, `toggleEdge` in
@@ -141,6 +142,9 @@ The getter `nodeFocused` in
 [`store/store.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/store.js)
 checks if a node is focused in any of these three ways.<br>
 It is used in `Node` and the tables `MatrixRLabel` and `MatrixPQLabel`.
+
+In the component [`Edge`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Edge.vue)
+the computed property `strong` will highlight the edge, if one of its two nodes is focused (equal to `nodeFocus`) or if the mouse hovers over the cooresponding red cell in a matrix (pair is equal to `nodePairFocus`).
 
 # Components
 
