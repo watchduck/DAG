@@ -76,3 +76,67 @@ It is dispatched when the DAG changes (`actToggleEdge`, `actAddNode` and `actRem
 After the Axios call in the action is finished, the mutation `mutDag` is committed 
 and updates the store variables `cocos`, `edges` and `r_to_pq`.
 
+## Drag
+
+A key functionality of the app is that nodes can be dragged with the mouse.<br>
+The code for that is in the component 
+[`Node`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Node.vue)
+and in [`store/modules/mouse.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/modules/mouse.js).
+
+Clicking on a node triggers the method `handleMouseDown`, 
+which (through `actDrag`) sets the store variable `drag` to true,
+and adds the event listener `handleMouseMove`.
+
+This listener will dispatch the action `actMouse` on every mouse move, and pass to it the node (as P and Q) and its new position.
+There it will be checked if the new position is legal. If it is, the coordinates of the node will be changed by
+commiting the mutations `mutNodeX` and `mutNodeY` (found in 
+[`store/store.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/store.js)).
+
+The mouse can leave the drawing, but the node can not.
+Therefore the release of the mouse has to be detected outside of the drawing.
+This `handleMouseUp` method is attached to the root `div` in the
+[`App`](https://github.com/watchduck/DAG/blob/master/front/app/src/App.vue) component.
+It sets `drag` to true again, and this change is detected by the watcher in `Node`,
+where the listener `handleMouseMove` is then removed again.
+
+## Focus
+
+There are different ways to focus single or many nodes by hovering over elements.
+Focusing a node will highlight all elements associated with it, i.e. its circle in the graph, its row in the tables,
+and its diagonal field in the matrices.
+
+In the components associated with single nodes
+([`Node`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Node.vue),
+[`MatrixRLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRLabel.vue),
+[`MatrixRCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCellDiagonal.vue),
+[`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue),
+[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue))
+mouseover will commit `mutNodeFocus` (with the node passed to it as R), and mouseleave will commit `mutNodeUnfocus`.
+These mutations will change the store variable `nodeFocus` to R or to null respectively.
+
+In the matrix cells
+([`MatrixRCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCell.vue),
+[`MatrixPQCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCell.vue))
+the equivalent mutations are `mutNodePairFocus` (with row and col node passed to it as R) and `mutNodePairUnfocus`.
+The changed variable is `nodePairFocus`.<br>
+In the upper matrix the positions of the cells do not change. Therefore it is more intuitive to have the field still
+focused after clicking on it. To achieve this, `toggleEdge` in
+[`MatrixRCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCell.vue)
+also sets `nodePairFocusRetain` to the current row and column.
+`actToggleEdge` in
+[`store/modules/graph.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/modules/graph.js)
+will then refocus the cell after adding or removing the edge.
+
+Until here these mutations and variables are all in 
+[`store/modules/mouse.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/modules/mouse.js)
+
+Hovering over a column in the green rank matrix will highlight all nodes with that rank. In 
+[`MatrixPQRanks`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQRanks.vue)
+the mutations are `mutRankFocus` (with the component index P and the rank passed to it) and `mutRankUnfocus`,
+which change the variable `rankFocus`. These are in
+[`store/modules/rank.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/modules/rank.js).
+
+The getter `nodeFocused` in
+[`store/store.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/store.js)
+checks if a node is focused in any of these three ways.<br>
+It is used in `Node` and the tables `MatrixRLabel` and `MatrixPQLabel`.
