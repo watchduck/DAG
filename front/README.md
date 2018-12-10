@@ -3,6 +3,8 @@
 The frontend uses Vue 2.5.17 and Vuex 3.0.1.<br>
 It sends the raw description of a DAG to the backend and presents the details it gets from there.
 
+## Graph
+
 The sent information is the number of nodes and the array of edges (including those previously removed).<br>
 The answer looks like in the following example.
 
