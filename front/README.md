@@ -50,7 +50,7 @@ The node numbers in this order are called R.
 **Q:** The second one is in [topological order](https://en.wikipedia.org/wiki/Topological_sorting),
 which usually changes when any edge is added or removed.
 (It will always be reordered so that all entries are in the upper triangle.)
-The nodes in this order can be identified by a pair (P, Q), where P identifies the connected component and Q the node.
+In addition to the unique number R, nodes can also be identified by a pair (P, Q), where P identifies the connected component and Q the node in this order.
 (The topological order is not unique. Even if the first ordering is topological, the second one will usually be different.)
 
 In the app it can be set in the
@@ -183,7 +183,7 @@ are used both in
 [`MatrixPQSmall`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQSmall.vue).
 (So this is not a tree, but itself a DAG.)
 
-## Browsers
+## Misc.
 
 The borders between the matrix cells are hidden in Firefox, thanks to an
 [ancient bug](https://bugzilla.mozilla.org/show_bug.cgi?id=688556).
@@ -191,3 +191,7 @@ The borders between the matrix cells are hidden in Firefox, thanks to an
 In Chrome it looks like it should.
 
 In the site currently online the [devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) are allowed. Components and store can be accessed.
+
+In its current state this app is a prototype. A request for suggestions how it could be improved can be found 
+[in the Vue forum](https://forum.vuejs.org/t/app-for-directed-acyclic-graphs-how-to-improve/51023).
+
