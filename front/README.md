@@ -146,7 +146,7 @@ It is used in `Node` and the tables `MatrixRLabel` and `MatrixPQLabel`.
 In the component [`Edge`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Edge.vue)
 the computed property `strong` will highlight the edge, if one of its two nodes is focused (equal to `nodeFocus`) or if the mouse hovers over the cooresponding red cell in a matrix (pair is equal to `nodePairFocus`).
 
-# Components
+## Components
 
 [`App`](https://github.com/watchduck/DAG/blob/master/front/app/src/App.vue)
 
