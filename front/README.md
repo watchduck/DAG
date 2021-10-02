@@ -8,8 +8,9 @@ It sends the raw description of a DAG to the backend and presents the details it
 The sent information is the number of nodes and the array of edges (including those previously removed).<br>
 The answer looks like in the following example.
 
-This is basically [dag.watchduck.net/?edges=0-1~<!---->0-3~<!---->1-2~<!---->2-4~<!---->3-4&names=~~~~](http://dag.watchduck.net/?edges=0-1~0-3~1-2~2-4~3-4&names=~~~~).<br>
-To also get (0, 2) as a removed edge, remove (1, 2), add (0, 2), and add (1, 2) again.
+This is basically
+[dag.watchduck.net/?edges=0-1~<!---->0-3~<!---->1-2~<!---->2-4~<!---->3-4&names=~~~~](http://dag.watchduck.net/?edges=0-1~0-3~1-2~2-4~3-4&names=~~~~).
+<br>To also get (0, 2) as a removed edge, remove (1, 2), add (0, 2), and add (1, 2) again.
 ```
 {
     'cocos': [
@@ -38,8 +39,8 @@ To also get (0, 2) as a removed edge, remove (1, 2), add (0, 2), and add (1, 2) 
 ```
 <table>
 <tr>
-<td><img src="http://paste.watchduck.net/1812/dag_example_1_screen.png" width="350">
-<td><img src="http://paste.watchduck.net/1812/dag_example_1.svg" width="450">
+<td><img src="../.img/dag_example_1_screen.png" width="350">
+<td><img src="../.img/dag_example_1.svg" width="450">
 </table>
 
 The two matrices have different orderings, which entail two different ways to refer to nodes.
@@ -54,14 +55,14 @@ In addition to the unique number R, nodes can also be identified by a pair (P, Q
 (The topological order is not unique. Even if the first ordering is topological, the second one will usually be different.)
 
 In the app it can be set in the
-[`Dashboard`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Dashboard.vue)
+[`Dashboard`](app/src/components/Dashboard.vue)
 component if nodes are to be shown as R or Q (or their name).<br>
 In the image on the left they are shown as the default R.
 
 In the image on the right both numbers are shown for each node &mdash; R without and and Q with serifs.
 
 The DAG in this example has only one connected component. (A second one with two can be found
-[here](https://github.com/watchduck/DAG/blob/master/front/README_2.md).)
+[here](README_2.md).)
 
 The response from the server has three parts: `cocos`, `edges` and the map `r_to_pq`.<br>
 `cocos` contains the data for each connected component, including its (present) edges as pairs of Q.<br>
@@ -72,10 +73,10 @@ If edges passed to the server turn out to be closing, they are removed (red circ
 Any edge opposite to one in the closure is forbidden (gray matrix fields), because it would create a circle.
 
 The sending and receiving happens in the action `actDag` in
-[`store/modules/graph.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/modules/graph.js).
+[`store/modules/graph.js`](app/src/store/modules/graph.js).
 It is dispatched when the DAG changes (actions `actToggleEdge`, `actAddNode` and `actRemoveNode` right below) 
 and on page load in the
-[`Cocos`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Cocos.vue) component.
+[`Cocos`](app/src/components/Cocos.vue) component.
 After the Axios call in the action is finished, the mutation `mutDag` is committed 
 and updates the store variables `cocos`, `edges` and `r_to_pq`.
 
@@ -83,8 +84,8 @@ and updates the store variables `cocos`, `edges` and `r_to_pq`.
 
 A key functionality of the app is that nodes can be dragged with the mouse.<br>
 The code for that is in the component 
-[`Node`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Node.vue)
-and in [`store/modules/mouse.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/modules/mouse.js).
+[`Node`](app/src/components/Node.vue)
+and in [`store/modules/mouse.js`](app/src/store/modules/mouse.js).
 
 Clicking on a node triggers the method `handleMouseDown`, 
 which adds the event listener `handleMouseMove`, and (through `actDrag`) sets the store variable `drag` to true.
@@ -92,12 +93,12 @@ which adds the event listener `handleMouseMove`, and (through `actDrag`) sets th
 This listener will dispatch the action `actMouse` on every mouse move, and pass to it the node (as P and Q) and its new position.
 There it will be checked if the new position is legal. If it is, the coordinates of the node will be changed by
 commiting the mutations `mutNodeX` and `mutNodeY` (found in 
-[`store/store.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/store.js)).
+[`store/store.js`](app/src/store/store.js)).
 
 The mouse can leave the drawing, but the node can not.
 Therefore the release of the mouse has to be detected outside of the drawing.
 This `handleMouseUp` method is attached to the root `div` in the
-[`App`](https://github.com/watchduck/DAG/blob/master/front/app/src/App.vue) component.
+[`App`](app/src/App.vue) component.
 It sets `drag` to false, and this change is detected by the watcher in `Node`,
 where the listener `handleMouseMove` is then removed.
 
@@ -105,93 +106,91 @@ where the listener `handleMouseMove` is then removed.
 
 There are different ways to focus single or many nodes by hovering over elements.
 Focusing a node will highlight all elements associated with it, i.e. its circle in the graph
-([`Node`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Node.vue)),
+([`Node`](app/src/components/Node.vue)),
 its row in the tables
-([`MatrixRLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRLabel.vue),
-[`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue)),
+([`MatrixRLabel`](app/src/components/MatrixRLabel.vue),
+[`MatrixPQLabel`](app/src/components/MatrixPQLabel.vue)),
 and its diagonal field in the matrices
-([`MatrixRCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCellDiagonal.vue),
-[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue)).
+([`MatrixRCellDiagonal`](app/src/components/MatrixRCellDiagonal.vue),
+[`MatrixPQCellDiagonal`](app/src/components/MatrixPQCellDiagonal.vue)).
 
 In these components associated with single nodes, mouseover will commit `mutNodeFocus` (with the node passed to it as R), and mouseleave will commit `mutNodeUnfocus`.
 These mutations will change the store variable `nodeFocus` to R or to null respectively.
 
 In the matrix cells
-([`MatrixRCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCell.vue),
-[`MatrixPQCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCell.vue))
+([`MatrixRCell`](app/src/components/MatrixRCell.vue),
+[`MatrixPQCell`](app/src/components/MatrixPQCell.vue))
 the equivalent mutations are `mutNodePairFocus` (with row and column passed to it as R) and `mutNodePairUnfocus`.
 The changed variable is `nodePairFocus`.<br>
 In the upper matrix the positions of the cells do not change. Therefore it is more intuitive to have the field still
 focused after clicking on it. To achieve this, `toggleEdge` in
-[`MatrixRCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCell.vue)
+[`MatrixRCell`](app/src/components/MatrixRCell.vue)
 also sets `nodePairFocusRetain` to the current row and column.
 `actToggleEdge` in
-[`store/modules/graph.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/modules/graph.js)
+[`store/modules/graph.js`](app/src/store/modules/graph.js)
 will then refocus the cell after adding or removing the edge.
 
 Until here these mutations and variables are all in 
-[`store/modules/mouse.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/modules/mouse.js)
+[`store/modules/mouse.js`](app/src/store/modules/mouse.js)
 
 Hovering over a column in the green rank matrix will highlight all nodes with that rank. In 
-[`MatrixPQRanks`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQRanks.vue)
+[`MatrixPQRanks`](app/src/components/MatrixPQRanks.vue)
 the mutations are `mutRankFocus` (with the component index P and the rank passed to it) and `mutRankUnfocus`,
 which change the variable `rankFocus`. These are in
-[`store/modules/rank.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/modules/rank.js).
+[`store/modules/rank.js`](app/src/store/modules/rank.js).
 
 The getter `nodeFocused` in
-[`store/store.js`](https://github.com/watchduck/DAG/blob/master/front/app/src/store/store.js)
+[`store/store.js`](app/src/store/store.js)
 checks if a node is focused in any of these three ways.<br>
 It is used in `Node` and the tables `MatrixRLabel` and `MatrixPQLabel`.
 
-In the component [`Edge`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Edge.vue)
+In the component [`Edge`](app/src/components/Edge.vue)
 the computed property `strong` will highlight the edge, if one of its two nodes is focused (equal to `nodeFocus`) or if the mouse hovers over the cooresponding red cell in a matrix (pair is equal to `nodePairFocus`).
 
 ## Components
 
-[`App`](https://github.com/watchduck/DAG/blob/master/front/app/src/App.vue)
+[`App`](app/src/App.vue)
 
-&emsp;[`Dashboard`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Dashboard.vue)
+&emsp;[`Dashboard`](app/src/components/Dashboard.vue)
 
-&emsp;[`MatrixR`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixR.vue)<br>
-&emsp;&emsp;[`MatrixRLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRLabel.vue)<br>
-&emsp;&emsp;[`MatrixRCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCell.vue)<br>
-&emsp;&emsp;[`MatrixRCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixRCellDiagonal.vue)<br>
+&emsp;[`MatrixR`](app/src/components/MatrixR.vue)<br>
+&emsp;&emsp;[`MatrixRLabel`](app/src/components/MatrixRLabel.vue)<br>
+&emsp;&emsp;[`MatrixRCell`](app/src/components/MatrixRCell.vue)<br>
+&emsp;&emsp;[`MatrixRCellDiagonal`](app/src/components/MatrixRCellDiagonal.vue)<br>
 
-&emsp;[`MatrixPQBig`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQBig.vue)
+&emsp;[`MatrixPQBig`](app/src/components/MatrixPQBig.vue)
 (hidden if DAG has only one connected component)<br>
-&emsp;&emsp;[`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue)<br>
-&emsp;&emsp;[`MatrixPQCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCell.vue)<br>
-&emsp;&emsp;[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue)<br>
+&emsp;&emsp;[`MatrixPQLabel`](app/src/components/MatrixPQLabel.vue)<br>
+&emsp;&emsp;[`MatrixPQCell`](app/src/components/MatrixPQCell.vue)<br>
+&emsp;&emsp;[`MatrixPQCellDiagonal`](app/src/components/MatrixPQCellDiagonal.vue)<br>
 
-&emsp;[`Cocos`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Cocos.vue) (connected components)<br>
-&emsp;&emsp;[`Coco`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Coco.vue)
+&emsp;[`Cocos`](app/src/components/Cocos.vue) (connected components)<br>
+&emsp;&emsp;[`Coco`](app/src/components/Coco.vue)
 (heading hidden if only one)<br>
-&emsp;&emsp;&emsp;[`Node`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Node.vue)<br>
-&emsp;&emsp;&emsp;[`Edge`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/Edge.vue)<br>
-&emsp;&emsp;&emsp;[`MatrixPQSmall`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQSmall.vue)<br>
-&emsp;&emsp;&emsp;&emsp;[`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue)<br>
-&emsp;&emsp;&emsp;&emsp;[`MatrixPQRanks`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQRanks.vue)<br>
-&emsp;&emsp;&emsp;&emsp;[`MatrixPQCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCell.vue)<br>
-&emsp;&emsp;&emsp;&emsp;[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue)
+&emsp;&emsp;&emsp;[`Node`](app/src/components/Node.vue)<br>
+&emsp;&emsp;&emsp;[`Edge`](app/src/components/Edge.vue)<br>
+&emsp;&emsp;&emsp;[`MatrixPQSmall`](app/src/components/MatrixPQSmall.vue)<br>
+&emsp;&emsp;&emsp;&emsp;[`MatrixPQLabel`](app/src/components/MatrixPQLabel.vue)<br>
+&emsp;&emsp;&emsp;&emsp;[`MatrixPQRanks`](app/src/components/MatrixPQRanks.vue)<br>
+&emsp;&emsp;&emsp;&emsp;[`MatrixPQCell`](app/src/components/MatrixPQCell.vue)<br>
+&emsp;&emsp;&emsp;&emsp;[`MatrixPQCellDiagonal`](app/src/components/MatrixPQCellDiagonal.vue)
 
 The labels and cells of the PQ matrices
-([`MatrixPQLabel`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQLabel.vue),
-[`MatrixPQCell`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCell.vue),
-[`MatrixPQCellDiagonal`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQCellDiagonal.vue))
+([`MatrixPQLabel`](app/src/components/MatrixPQLabel.vue),
+[`MatrixPQCell`](app/src/components/MatrixPQCell.vue),
+[`MatrixPQCellDiagonal`](app/src/components/MatrixPQCellDiagonal.vue))
 are used both in
-[`MatrixPQBig`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQBig.vue) and
-[`MatrixPQSmall`](https://github.com/watchduck/DAG/blob/master/front/app/src/components/MatrixPQSmall.vue).
+[`MatrixPQBig`](app/src/components/MatrixPQBig.vue) and
+[`MatrixPQSmall`](app/src/components/MatrixPQSmall.vue).
 (So this is not a tree, but itself a DAG.)
 
 ## Misc.
 
 The borders between the matrix cells are hidden in Firefox, thanks to an
 [ancient bug](https://bugzilla.mozilla.org/show_bug.cgi?id=688556).
-(Compare [this fiddle](https://jsfiddle.net/watchduck/du9ne1jz).)<br>
+(Compare [this fiddle](https://jsfiddle.net/watchduck/du9ne1jz).) <br>
 In Chrome it looks like it should.
 
-In the site currently online the [devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) are allowed. Components and store can be accessed.
-
-In its current state this app is a prototype. A request for suggestions how it could be improved can be found 
-[in the Vue forum](https://forum.vuejs.org/t/app-for-directed-acyclic-graphs-how-to-improve/51023).
+In the site currently online the [devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) 
+are allowed. Components and store can be accessed.
 

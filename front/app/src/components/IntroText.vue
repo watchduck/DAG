@@ -2,7 +2,7 @@
     <div>
         <div style="position: absolute; left: 700px;">
             <a href="https://github.com/watchduck/DAG">
-                <img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" width="40px">
+                <img src="../../../../.img/GitHub-Mark.png" width="40px">
             </a>
         </div>
         <p>

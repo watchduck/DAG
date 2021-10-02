@@ -1,6 +1,6 @@
 This is a second example of a response from the server. Here the DAG has two connected components (`cocos`).
 
-This is basically [http://dag.watchduck.net/?edges=0-2~<!---->2-4~<!---->3-1&names=~~~~](http://dag.watchduck.net/?edges=0-2~2-4~3-1&names=~~~~).<br>
+This is basically [http://dag.watchduck.net/?edges=0-2~<!---->2-4~<!---->3-1&names=~~~~](http://dag.watchduck.net/?edges=0-2~2-4~3-1&names=~~~~). <br>
 To also get (0, 4) as a removed edge, remove (0, 2) or (2, 4), add (0, 4), and add the previously removed edge again.
 
 ```
@@ -37,4 +37,4 @@ To also get (0, 4) as a removed edge, remove (0, 2) or (2, 4), add (0, 4), and a
 }
 ```
 
-<img src="http://paste.watchduck.net/1812/dag_example_2_screen.png">
+![example 2 screenshot](../.img/dag_example_2_screen.png)
