@@ -3,7 +3,7 @@
 This backend uses Django 2.1.3 and Django REST framework 3.9.0.<br>
 It receives the raw description of a DAG and returns details about it.
 
-The backend is [back-dag.watchduck.net/dag](http://back-dag.watchduck.net/dag),
+The backend is [backend.drag-dag.watchduck.net/dag](https://backend.drag-dag.watchduck.net/dag),
 and the corresponding view is `dag_view` in
 [`views.py`](proj/app/views.py).
 
