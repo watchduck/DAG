@@ -9,7 +9,7 @@ The sent information is the number of nodes and the array of edges (including th
 The answer looks like in the following example.
 
 This is basically
-[dag.watchduck.net/?edges=0-1~<!---->0-3~<!---->1-2~<!---->2-4~<!---->3-4&names=~~~~](http://dag.watchduck.net/?edges=0-1~0-3~1-2~2-4~3-4&names=~~~~).
+[drag-dag.watchduck.net/?edges=0-1~<!---->0-3~<!---->1-2~<!---->2-4~<!---->3-4&names=~~~~](https://drag-dag.watchduck.net/?edges=0-1~0-3~1-2~2-4~3-4&names=~~~~).
 <br>To also get (0, 2) as a removed edge, remove (1, 2), add (0, 2), and add (1, 2) again.
 ```
 {
